@@ -5,7 +5,7 @@ import sys
 
 from PySide6.QtWidgets import (QApplication, QWidget, QTableWidgetItem, QMainWindow,
                                QPushButton, QLineEdit, QTableWidget, QHeaderView,
-                               QStatusBar)
+                               QStatusBar, QPlainTextEdit)
 from PySide6.QtCore import QFile
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtGui import QColor
@@ -26,7 +26,7 @@ class MainWindow(QMainWindow):
             self.add_rule_to_table(r)
 
         # We get the interesting widgets
-        self.test_string_field = self.findChild(QLineEdit, "lineEditTestString")
+        self.test_string_field = self.findChild(QPlainTextEdit, "plainTextEditTestString")
         self.output_field = self.findChild(QLineEdit, "lineEditOutput")
         self.regex_field = self.findChild(QLineEdit, "lineEditRegex")
         self.tags_field = self.findChild(QLineEdit, "lineEditTags")
@@ -99,7 +99,7 @@ class MainWindow(QMainWindow):
 
     def check_regex_field(self):
         reg = self.regex_field.text().strip()
-        test_string = self.test_string_field.text()
+        test_string = self.test_string_field.toPlainText()
 
         if is_regex_valid(reg):
             # If we didn't even put a test string
@@ -131,7 +131,7 @@ class MainWindow(QMainWindow):
             item.setText( item.text().replace('  ', ' ') )
 
     def apply_test_sring_to_row(self, row_index: int):
-        test_string = self.test_string_field.text()
+        test_string = self.test_string_field.toPlainText()
         regex_item = self.table_widget_rules.item(row_index, 0)
         regex = regex_item.text()
 
